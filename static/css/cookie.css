@@ -1,0 +1,14 @@
+img {
+    width: 100px;
+    
+}
+
+#MUG {
+  position: relative;
+  top: 0;
+  transition: top 0.3s ease; /* smooth movement */
+}
+
+#MUG.up {
+  top: -10px;
+}

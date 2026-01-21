@@ -16,5 +16,10 @@ def cookie():
 def pong():
     return render_template("pong.html")
 
+@app.route('/pong2')
+def pong2():
+    return render_template("pong2.html")
+
 if __name__ == "__main__":
     app.run()
+

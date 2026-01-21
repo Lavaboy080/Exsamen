@@ -54,14 +54,8 @@ function MoveBall() {
     Ball.velocity.x = -Ball.velocity.x;
   } 
 
-  if (Ball.position.y - Ball.radius < 0) {
+  if (Ball.position.y + Ball.radius > canvas.height || Ball.position.y - Ball.radius < 0) {
     Ball.velocity.y = -Ball.velocity.y;
-  }
-
-  if (Ball.position.y + Ball.radius > canvas.height){
-    alert("GAME OVER");
-    document.location.reload();
-    clearInterval(interval);
   }
 }
 
@@ -109,5 +103,4 @@ function run() {
     CheckPaddleCollision();
 }
 
-
-interval = setInterval(run, 10);
+setInterval(run, 10);

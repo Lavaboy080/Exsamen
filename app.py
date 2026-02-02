@@ -3,9 +3,18 @@ import datetime
 
 app = Flask(__name__)
 
+# Enkel DB-tilkobling
+def get_conn():
+    return mysql.connector.connect(
+        host="localhost",
+        user="sigurd",
+        password="1234",
+        database="eksempel"
+    )
 
 @app.route('/')
 def index():
+    conn = get_conn()
     return render_template("index.html")
 
 @app.route('/mug')

@@ -8,9 +8,14 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route('/cookie')
-def cookie():
-    return render_template("cookie.html")
+@app.route('/mug')
+def mug():
+    return render_template("mug.html")
+
+@app.route('/shop')
+def shop():
+    return render_template("shop.html")
+
 
 @app.route('/pong')
 def pong():

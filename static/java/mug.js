@@ -1,9 +1,9 @@
-let count = 0;
 const score = document.getElementById('score');
 const MUG = document.getElementById('MUG');
-function update(){
+
+function update() {
     if (score)
-     score.textContent = `Score: ${count}`;
+        score.textContent = `Score: ${count}`;
 }
 
 MUG.addEventListener('click',incrise);
@@ -14,4 +14,3 @@ function incrise(){
     MUG.classList.toggle('up');
 }
 
-update();

@@ -6,6 +6,10 @@
         <p style="color:red">{{ error }}</p>
     {% endfor %}
     {{ form.password.label }} {{ form.password }}<br>
+    {{ form.age.label }} {{ form.age }}<br>
+    {% for error in form.age.errors %}
+        <p style="color:red">{{ error }}</p>
+    {% endfor %}
     {{ form.submit }}
 </form>
 

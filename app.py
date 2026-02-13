@@ -20,17 +20,23 @@ def register():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
+        age = form.age.data
+
         conn = get_conn()
         cur = conn.cursor()
         cur.execute("SELECT * FROM Users WHERE brukernavn = %s", (username,))
         user = cur.fetchone()
-        if user:
+        if age < 13:
+            form.age.errors.append("Du må være minst 13 år for å registrere deg")
+
+        elif user:
             form.username.errors.append("Brukernavnet er allerede tatt")
+
         else:
             cur.execute(
-                "INSERT INTO Users (brukernavn, passord) VALUES (%s, %s)",
-                (username, password)
-            )
+                "INSERT INTO Users (brukernavn, passord, alder) VALUES (%s, %s,%s)",
+                (username, password, age)
+                )
             conn.commit()
             cur.close()
             conn.close()
@@ -54,6 +60,7 @@ def login():
         user = cur.fetchone()
         cur.close()
         conn.close()
+        
 
         if user:
             session['username'] = user[0]

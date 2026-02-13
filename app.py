@@ -1,20 +1,78 @@
-from flask import Flask, render_template
-import datetime
+from flask import Flask, render_template, redirect, session
+import mysql.connector
+from forms import RegisterForm, LoginForm
+
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "superhemmelig123"
 
-# Enkel DB-tilkobling
 def get_conn():
     return mysql.connector.connect(
         host="localhost",
-        user="sigurd",
+        user="SigurdMelby",
         password="1234",
-        database="eksempel"
+        database="Users"
     )
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM Users WHERE brukernavn = %s", (username,))
+        user = cur.fetchone()
+        if user:
+            form.username.errors.append("Brukernavnet er allerede tatt")
+        else:
+            cur.execute(
+                "INSERT INTO Users (brukernavn, passord) VALUES (%s, %s)",
+                (username, password)
+            )
+            conn.commit()
+            cur.close()
+            conn.close()
+            return redirect("/login")
+
+    return render_template("register.html", form=form)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT brukernavn FROM Users WHERE brukernavn=%s AND passord=%s",
+            (username, password)
+        )
+        user = cur.fetchone()
+        cur.close()
+        conn.close()
+
+        if user:
+            session['username'] = user[0]
+            return redirect("/welcome")
+        else:
+            form.username.errors.append("Feil brukernavn eller passord")
+
+    return render_template("login.html", form=form)
+
+@app.route("/welcome")
+def welcome():
+    username = session.get('username')  # Hent navn fra session
+    if not username:
+        return redirect("/login")  # send tilbake til login om ikke logget inn
+    return render_template("welcome.html", username=username)
+
 
 @app.route('/')
 def index():
-    conn = get_conn()
     return render_template("index.html")
 
 @app.route('/mug')

@@ -1,0 +1,12 @@
+<h2>Registrer ny bruker</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.username.label }} {{ form.username }}<br>
+    {% for error in form.username.errors %}
+        <p style="color:red">{{ error }}</p>
+    {% endfor %}
+    {{ form.password.label }} {{ form.password }}<br>
+    {{ form.submit }}
+</form>
+
+<a href="/login">Logg inn</a>

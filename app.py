@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, session
 import mysql.connector
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, RedigerForm
 
 
 app = Flask(__name__)
@@ -63,7 +63,7 @@ def login():
         
 
         if user:
-            session['username'] = user[0]
+            session['name'] = user[0]
             return redirect("/welcome")
         else:
             form.username.errors.append("Feil brukernavn eller passord")
@@ -72,11 +72,34 @@ def login():
 
 @app.route("/welcome")
 def welcome():
-    username = session.get('username')  # Hent navn fra session
+    username = session.get('name')  # Hent navn fra session
     if not username:
         return redirect("/login")  # send tilbake til login om ikke logget inn
     return render_template("welcome.html", username=username)
 
+@app.route("/rediger", methods=["GET", "POST"])
+def rediger():
+    name = session.get('name')
+    form = RedigerForm()
+    if form.validate_on_submit():
+        username = form.username.data
+
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM Users WHERE brukernavn = %s", (username,))
+        user = cur.fetchone()
+
+        if user:
+            form.username.errors.append("Brukernavnet er allerede tatt")
+
+        else:
+            cur.execute("UPDATE Users SET brukernavn = %s WHERE brukernavn = %s", (username,name,))
+            conn.commit()
+            cur.close()
+            conn.close()
+            return redirect("/login")
+
+    return render_template("rediger.html", form=form)
 
 @app.route('/')
 def index():

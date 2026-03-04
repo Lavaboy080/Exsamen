@@ -5,10 +5,9 @@
 
 {% block content %}
 <h1>Redigering av bruker</h1>
+<p>Du er logget inn som {{name}}</p> 
+<p>Under har du valg for å endre eller slette kontoen</p>
 <p>Rediger brukernavn</p>
-<p>Rediger passord</p>
-<p>Slett bruker</p>
-
 <form method="POST">
     {{ form.hidden_tag() }}
     {{ form.username.label }} {{ form.username }}<br>
@@ -16,6 +15,18 @@
         <p style="color:red">{{ error }}</p>
     {% endfor %}
     {{ form.submit }}
+</form>
+<p>Rediger passord</p>
+
+<p>Slett bruker</p>
+<form method="POST">
+    {{ form2.hidden_tag() }}
+    {{ form2.username.label }} {{ form2.username }}<br>
+    {{ form2.password.label }} {{ form2.password }}<br>
+    {% for error in form.username.errors %}
+        <p style="color:red">{{ error }}</p>
+    {% endfor %}
+    {{ form2.submit }}
 </form>
 
 {% endblock %}

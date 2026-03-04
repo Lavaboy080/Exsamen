@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, session
 import mysql.connector
-from forms import RegisterForm, LoginForm, RedigerForm
-
+from forms import RegisterForm, LoginForm, RedigerForm, SlettForm
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "superhemmelig123"
@@ -53,10 +52,7 @@ def login():
 
         conn = get_conn()
         cur = conn.cursor()
-        cur.execute(
-            "SELECT brukernavn FROM Users WHERE brukernavn=%s AND passord=%s",
-            (username, password)
-        )
+        cur.execute("SELECT brukernavn FROM Users WHERE brukernavn=%s AND passord=%s",(username, password,))
         user = cur.fetchone()
         cur.close()
         conn.close()
@@ -72,10 +68,10 @@ def login():
 
 @app.route("/welcome")
 def welcome():
-    username = session.get('name')  # Hent navn fra session
-    if not username:
+    name = session.get('name')  # Hent navn fra session
+    if not name:
         return redirect("/login")  # send tilbake til login om ikke logget inn
-    return render_template("welcome.html", username=username)
+    return render_template("welcome.html", name=name)
 
 @app.route("/rediger", methods=["GET", "POST"])
 def rediger():
@@ -98,8 +94,28 @@ def rediger():
             cur.close()
             conn.close()
             return redirect("/login")
+    form2 = SlettForm()
+    if form2.validate_on_submit():
+        username = form2.username.data
+        password = form2.password.data
 
-    return render_template("rediger.html", form=form)
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT brukernavn FROM Users WHERE brukernavn=%s AND passord=%s", (username, password,))
+        user = cur.fetchone()
+
+        if user:
+            cur.execute("DELETE FROM Users WHERE brukernavn=%s AND passord=%s", (name, password,))
+            conn.commit()
+            cur.close()
+            conn.close()
+            return redirect("/login")
+
+        else:
+           form2.username.errors.append("Brukernavnet eller passordet er feil")
+
+
+    return render_template("rediger.html", form=form,form2=form2,name=name)
 
 @app.route('/')
 def index():

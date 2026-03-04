@@ -15,4 +15,10 @@ class LoginForm(FlaskForm):
 
 class RedigerForm(FlaskForm):
     username = StringField("Brukernavn", validators=[InputRequired()])
-    submit = SubmitField("Registrer")
+    submit = SubmitField("Endre")
+
+class SlettForm(FlaskForm):
+    username = StringField("Brukernavn", validators=[InputRequired()])
+    password = PasswordField("Passord", validators=[InputRequired()])
+    submit = SubmitField("Slett bruker")
+

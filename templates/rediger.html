@@ -21,12 +21,12 @@
 <p>Slett bruker</p>
 <form method="POST">
     {{ form2.hidden_tag() }}
-    {{ form2.username.label }} {{ form2.username }}<br>
-    {{ form2.password.label }} {{ form2.password }}<br>
-    {% for error in form.username.errors %}
+    {{ form2.delusername.label }} {{ form2.delusername }}<br>
+    {{ form2.delpassword.label }} {{ form2.delpassword }}<br>
+    {% for error in form2.delusername.errors %}
         <p style="color:red">{{ error }}</p>
     {% endfor %}
-    {{ form2.submit }}
+    {{ form2.delsubmit }}
 </form>
 
 {% endblock %}

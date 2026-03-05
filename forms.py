@@ -18,7 +18,7 @@ class RedigerForm(FlaskForm):
     submit = SubmitField("Endre")
 
 class SlettForm(FlaskForm):
-    username = StringField("Brukernavn", validators=[InputRequired()])
-    password = PasswordField("Passord", validators=[InputRequired()])
-    submit = SubmitField("Slett bruker")
+    delusername = StringField("Brukernavn", validators=[InputRequired()])
+    delpassword = PasswordField("Passord", validators=[InputRequired()])
+    delsubmit = SubmitField("Slett bruker")
 

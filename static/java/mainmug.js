@@ -1,22 +1,31 @@
-const params = new URLSearchParams(window.location.search);
-const nettmug = document.getElementById('nettmug');
-const nettshop = document.getElementById('nettshop');
+const score = document.getElementById('score');
+const MUG = document.getElementById('MUG');
+let grandpaAmount = 0
+let count = 0
 
-let grandpaAmount = parseInt(params.get('grandpas')) || 0;
-let count = parseInt(params.get('count')) || 0;
-let cookieUpgradeAmount = parseInt(params.get('cookieUpgrades')) || 0;
 
-function updateSite() {
-    params.set("count", count);
-    params.set("grandpas", grandpaAmount);
-    params.set("cookieUpgrades", cookieUpgradeAmount);
-    history.replaceState(null, "", "?" + params.toString());
+function sendScore(score) {
+    fetch("/save_score", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ score: score })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === "success"){
+            console.log("Score lagret!");
+        } else {
+            console.log("Feil ved lagring av score:", data);
+        }
+    })
+    .catch(error => console.error("Error:", error));
 }
 
 function passiveIncome() {
     count += grandpaAmount;
     update();
-    updateSite();
 }
 
 function update() {
@@ -24,17 +33,16 @@ function update() {
         score.textContent = `Score: ${count}`;
 }
 
-function shop_button() { 
-    window.location.href = history.replaceState(null, "/shop", "?" + params.toString());
+function incrise(){
+    count ++ ;
+    update();
+    MUG.classList.toggle('up');
 }
 
-function mug_button() { 
-    window.location.href = history.replaceState(null, "/mug", "?" + params.toString());
-}
-
-nettshop.addEventListener('click', shop_button);
-nettshop.addEventListener('click', mug_button);
+MUG.addEventListener('click', () => {
+    incrise();
+    sendScore(count);
+});
 
 update();
-updateSite();
 setInterval(passiveIncome, 1000);

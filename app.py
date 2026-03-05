@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, session
+from flask import Flask, render_template, redirect, session,request
+
 import mysql.connector
 from forms import RegisterForm, LoginForm, RedigerForm, SlettForm
 
@@ -33,9 +34,7 @@ def register():
 
         else:
             cur.execute(
-                "INSERT INTO Users (brukernavn, passord, alder) VALUES (%s, %s,%s)",
-                (username, password, age)
-                )
+                "INSERT INTO Users (brukernavn, passord, alder) VALUES (%s, %s,%s)",(username, password, age,))
             conn.commit()
             cur.close()
             conn.close()
@@ -77,7 +76,7 @@ def welcome():
 def rediger():
     name = session.get('name')
     form = RedigerForm()
-    if form.validate_on_submit():
+    if form.submit.data and form.validate():
         username = form.username.data
 
         conn = get_conn()
@@ -95,27 +94,43 @@ def rediger():
             conn.close()
             return redirect("/login")
     form2 = SlettForm()
-    if form2.validate_on_submit():
-        username = form2.username.data
-        password = form2.password.data
+    if form2.delsubmit.data and form2.validate():
+        username = form2.delusername.data
+        password = form2.delpassword.data
 
         conn = get_conn()
         cur = conn.cursor()
         cur.execute("SELECT brukernavn FROM Users WHERE brukernavn=%s AND passord=%s", (username, password,))
         user = cur.fetchone()
-
-        if user:
-            cur.execute("DELETE FROM Users WHERE brukernavn=%s AND passord=%s", (name, password,))
-            conn.commit()
-            cur.close()
-            conn.close()
-            return redirect("/login")
-
+        if username == name:
+            if user:
+                cur.execute("DELETE FROM Users WHERE brukernavn=%s AND passord=%s", (username, password,))
+                conn.commit()
+                cur.close()
+                conn.close()
+                return redirect("/login")
+            else:
+                form2.delusername.errors.append("Brukernavnet eller passordet er feil")
         else:
-           form2.username.errors.append("Brukernavnet eller passordet er feil")
-
+            form2.delusername.errors.append("Bruk ditt eget brukernavn")
 
     return render_template("rediger.html", form=form,form2=form2,name=name)
+
+@app.route("/save_score", methods=["POST"])
+def save_score():
+    name = session.get('name')
+    data = request.get_json()
+    score = data.get("score")
+
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("UPDATE Users SET score = %s WHERE brukernavn = %s", (score, name,))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return {"status": "success"}
 
 @app.route('/')
 def index():
@@ -123,7 +138,8 @@ def index():
 
 @app.route('/mug')
 def mug():
-    return render_template("mug.html")
+    name = session.get('name')
+    return render_template("mug.html",name=name)
 
 @app.route('/shop')
 def shop():

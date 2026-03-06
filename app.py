@@ -6,8 +6,10 @@ from forms import RegisterForm, LoginForm, RedigerForm, RedigerForm2, SlettForm
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "superhemmelig123"
 
+#lager en liste for dårlige ord fikk hjelp av chat
 BANNED_WORDS = ["faen", "shit", "fuck", "helvete"]
 
+#lager en funksjon som skjekker om username som er en variable sendt inn senere har de filteret ordene fikk hjelp av chat.
 def contains_bad_word(username):
     username_lower = username.lower()
     return any(word in username_lower for word in BANNED_WORDS)
@@ -27,6 +29,7 @@ def register():
         username = form.username.data
         password = form.password.data
         age = form.age.data
+        #gjør at passordene blir hashet. brukte tidligere lærestoff fra hanna
         passord_hash = generate_password_hash(password)
 
         conn = get_conn()
@@ -34,6 +37,7 @@ def register():
         cur.execute("SELECT * FROM Users WHERE brukernavn = %s", (username,))
         user = cur.fetchone()
         
+        #skjører en feilmelding med formen hvis den merker ord som er stygge. bruker funksjonen definert over. fikk hjelp av chat
         if contains_bad_word(username):
             form.username.errors.append("Det brukernavnet tillater nettsiden ikke")
 
@@ -42,7 +46,8 @@ def register():
 
         elif user:
             form.username.errors.append("Brukernavnet er allerede tatt")
-
+        
+        #bruker det hashet passordet for å sende inn et mer forvirrende pasoord i databasen. brukte hannas tidligere læringstoff
         else:
             cur.execute(
                 "INSERT INTO Users (brukernavn, passord, alder, score, bestescore) VALUES (%s, %s,%s,0,0)",(username, passord_hash, age,))
@@ -67,6 +72,7 @@ def login():
         cur.close()
         conn.close()
         
+        #skjekker om bruker finnes og hvis den gjør det skjekker check_hashpassord at det passordet du sendte inn ikke er likt. fikk bitte litt hjelp av chat og hannas lærestoff
         if user:
             password_db = user[1]
             if check_password_hash(password_db, password):
@@ -110,6 +116,7 @@ def rediger():
             session["name"] = username
             return redirect("/login")
     #jeg måtte feilsøke med chat når jeg la inn form2
+    #form 2 skal endre passordet fikk hjelp av hat når jeg måtte hashe de. fikk også hjelp av hannas tidliger læringstoffer
     form2 = RedigerForm2()
     if form2.passubmit.data and form2.validate():
         newpassword = form2.password.data

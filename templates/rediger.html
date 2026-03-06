@@ -5,10 +5,11 @@
 {% endblock%}
 
 {% block content %}
-<h1>Redigering av bruker</h1>
-<p>Du er logget inn som {{name}}</p> 
-<p>Under har du valg for å endre eller slette kontoen</p>
-<p>Rediger brukernavn</p>
+<!--jeg fant tabindex med chat det gjør at du kan tabbe deg gjennom siden-->
+<h1 tabindex="0">Redigering av bruker</h1>
+<p tabindex="0">Du er logget inn som {{name}}</p> 
+<p tabindex="0">Under har du valg for å endre eller slette kontoen</p>
+<p tabindex="0">Rediger brukernavn</p>
 <form method="POST">
     {{ form.hidden_tag() }}
     {{ form.username.label }} {{ form.username }}<br>
@@ -17,7 +18,7 @@
     {% endfor %}
     {{ form.usrsubmit }}
 </form>
-<p>Rediger passord</p>
+<p tabindex="0">Rediger passord</p>
 <form method="POST">
     {{ form2.hidden_tag() }}
     {{ form2.password.label }} {{ form2.password }}<br>
@@ -27,7 +28,7 @@
     {{ form2.passubmit }}
 </form>
 <!-- chat hjalp meg med confirmDelete -->
-<p>Slett bruker</p>
+<p tabindex="0">Slett bruker</p>
 <form method="POST" onsubmit="return confirmDelete();">
     {{ form3.hidden_tag() }}
     {{ form3.delusername.label }} {{ form3.delusername }}<br>

@@ -34,6 +34,9 @@ Drt skal være et slags cookie cliker spill og et slags breakoutspill.
 - Python
 - CSS
 - Html
+- MySql
+- JSON
+
 
 ---
 
@@ -43,4 +46,4 @@ python3 -m venv env
 source env/bin/activate
 pip install flask
 python3 app.py
-gå til 
+gå til 172.20.128.28

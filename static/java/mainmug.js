@@ -1,5 +1,6 @@
 const score = document.getElementById('score');
 const MUG = document.getElementById('MUG');
+const reset = document.getElementById('reset');
 let grandpaAmount = 0
 let count = sqlscore || 0;
 
@@ -39,10 +40,20 @@ function incrise(){
     MUG.classList.toggle('up');
 }
 
+function startover(){
+    count = 0
+} 
+
 MUG.addEventListener('click', () => {
     incrise();
     sendScore(count);
 });
+
+reset.addEventListener('click', () => {
+    startover();
+    sendScore(count);
+});
+
 
 update();
 setInterval(passiveIncome, 1000);

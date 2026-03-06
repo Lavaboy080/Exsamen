@@ -94,7 +94,7 @@ def rediger():
             conn.close()
             session["name"] = username
             return redirect("/login")
-
+    #jeg måtte feilsøke med chat når jeg la inn form2
     form2 = RedigerForm2()
     if form2.passubmit.data and form2.validate():
         newpassword = form2.password.data

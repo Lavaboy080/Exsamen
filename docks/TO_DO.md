@@ -6,7 +6,8 @@
   - [x] Legge til scoresystem for mugcliker
   - [ ] Legge til en highscoreside for mugcliker
   - [ ] Legge til opgraderinger for mugcliker
-  - [ ] Bli ferdig med å bytte lagring av score og annet sånn at det lagres med sql
+  - [x] Bli ferdig med å bytte lagring av score og annet sånn at det lagres med sql
+  - [x] Legge til en måte å starte spillet på nytt
 
 - [x] Lage breakoutsppillet
   - [x] Lage an canvaslayer som ballen og blokker blir tegnet på
@@ -27,7 +28,7 @@
   - [x] Lage aldersgrense for å bruke spillet
   - [ ] Gjøre at noen bannerord ikke kan bli valgt som brukernavn.
   - [x] Gjøre at brukerne kan endre brukernavn
-  - [ ] Gjøre at brukerne kan endre passordet sitt
+  - [x] Gjøre at brukerne kan endre passordet sitt
   - [x] Gjøre at brukerne kan slette brukeren sin
   - [ ] Passordhashing
   

@@ -1,0 +1,25 @@
+{%extends "base.html"%}
+
+{% block sheets %}
+
+{% endblock %}
+
+{% block content %}
+<h1>Scores</h1>
+
+<table border="1">
+    <tr>
+        <th>Plass</th>
+        <th>Brukernavn</th>
+        <th>Beste poeng</th>
+    </tr>
+    {% for i in players %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ i.get('brukernavn') }}</td>
+        <td>{{ i.get('bestescore') }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

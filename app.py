@@ -172,8 +172,18 @@ def save_score():
         cur.close()
         conn.close()
 
-
     return {"status": "success"}
+
+@app.route('/scores')
+def scores():
+    conn = get_conn()
+    cur = conn.cursor(dictionary=True)
+    cur.execute("SELECT brukernavn, bestescore FROM Users ORDER BY bestescore DESC LIMIT 10")
+    players = cur.fetchall()
+    cur.close()
+    conn.close()
+    
+    return render_template("scores.html", players=players)
 
 @app.route('/')
 def index():

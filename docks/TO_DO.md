@@ -1,13 +1,14 @@
 ## TODO – Prosjekt
 
-- [] Lag ferdig Mugcliker
+- [ ] Lag ferdig Mugcliker
   - [x] Lage ferdig et bilde som kan blik klikket for å incrise score
   - [x] Legge til kommentarer og enkel teknisk dokumentasjon
   - [x] Legge til scoresystem for mugcliker
-  - [ ] Legge til en highscoreside for mugcliker
+  - [x] Legge til en highscoreside for mugcliker
   - [ ] Legge til opgraderinger for mugcliker
   - [x] Bli ferdig med å bytte lagring av score og annet sånn at det lagres med sql
   - [x] Legge til en måte å starte spillet på nytt
+  - [ ]fikse bugs med scoren
 
 - [x] Lage breakoutsppillet
   - [x] Lage an canvaslayer som ballen og blokker blir tegnet på

@@ -29,6 +29,7 @@
   - [x] Gjøre at brukerne kan endre brukernavn
   - [ ] Gjøre at brukerne kan endre passordet sitt
   - [x] Gjøre at brukerne kan slette brukeren sin
+  - [ ] Passordhashing
   
 
 - [ ] Lage spillet snake
@@ -45,7 +46,6 @@
 - [ ] Annet
   - [ ] Lage en personvernsærklæring
   - [ ] Bruke cookiebot sine infomasjonskapselgreie
-  - [ ] Passordhashing
   - [ ] Lage en side for feedback
   - [ ] Legge til kommentarer
   - [x] Skrive ting i docks ferdig

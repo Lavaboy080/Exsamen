@@ -22,8 +22,6 @@ class RedigerForm2(FlaskForm):
     password = PasswordField("Passord", validators=[InputRequired()])
     passubmit = SubmitField("Endre")
 
-
-
 class SlettForm(FlaskForm):
     delusername = StringField("Brukernavn", validators=[InputRequired()])
     delpassword = PasswordField("Passord", validators=[InputRequired()])

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block sheets%}
+<script src="../static/java/login.js" defer> </script>
 {% endblock%}
 
 {% block content %}
@@ -25,10 +26,9 @@
     {% endfor %}
     {{ form2.passubmit }}
 </form>
-
-
+<!-- chat hjalp meg med confirmDelete -->
 <p>Slett bruker</p>
-<form method="POST">
+<form method="POST" onsubmit="return confirmDelete();">
     {{ form3.hidden_tag() }}
     {{ form3.delusername.label }} {{ form3.delusername }}<br>
     {{ form3.delpassword.label }} {{ form3.delpassword }}<br>

@@ -34,7 +34,7 @@ def register():
 
         else:
             cur.execute(
-                "INSERT INTO Users (brukernavn, passord, alder) VALUES (%s, %s,%s)",(username, password, age,))
+                "INSERT INTO Users (brukernavn, passord, alder,score) VALUES (%s, %s,%s,0)",(username, password, age,))
             conn.commit()
             cur.close()
             conn.close()

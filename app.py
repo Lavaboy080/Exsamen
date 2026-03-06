@@ -34,7 +34,7 @@ def register():
 
         else:
             cur.execute(
-                "INSERT INTO Users (brukernavn, passord, alder,score) VALUES (%s, %s,%s,0)",(username, password, age,))
+                "INSERT INTO Users (brukernavn, passord, alder, score, bestescore) VALUES (%s, %s,%s,0,0)",(username, password, age,))
             conn.commit()
             cur.close()
             conn.close()
@@ -145,10 +145,23 @@ def save_score():
     conn = get_conn()
     cur = conn.cursor()
     cur.execute("UPDATE Users SET score = %s WHERE brukernavn = %s", (score, name,))
-
     conn.commit()
     cur.close()
     conn.close()
+
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT bestescore FROM Users WHERE brukernavn=%s", (name,))
+    highscore = cur.fetchone()[0]
+
+    if score > highscore:
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("UPDATE Users SET bestescore = %s WHERE brukernavn = %s", (score, name,))
+        conn.commit()
+        cur.close()
+        conn.close()
+
 
     return {"status": "success"}
 

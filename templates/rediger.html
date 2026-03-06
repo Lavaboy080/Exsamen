@@ -17,16 +17,25 @@
     {{ form.submit }}
 </form>
 <p>Rediger passord</p>
+<form method="POST">
+    {{ form2.hidden_tag() }}
+    {{ form2.password.label }} {{ form2.password }}<br>
+    {% for error in form2.password.errors %}
+        <p style="color:red">{{ error }}</p>
+    {% endfor %}
+    {{ form2.passubmit }}
+</form>
+
 
 <p>Slett bruker</p>
 <form method="POST">
-    {{ form2.hidden_tag() }}
-    {{ form2.delusername.label }} {{ form2.delusername }}<br>
-    {{ form2.delpassword.label }} {{ form2.delpassword }}<br>
-    {% for error in form2.delusername.errors %}
+    {{ form3.hidden_tag() }}
+    {{ form3.delusername.label }} {{ form3.delusername }}<br>
+    {{ form3.delpassword.label }} {{ form3.delpassword }}<br>
+    {% for error in form3.delusername.errors %}
         <p style="color:red">{{ error }}</p>
     {% endfor %}
-    {{ form2.delsubmit }}
+    {{ form3.delsubmit }}
 </form>
 
 {% endblock %}

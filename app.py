@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, session,request
 
 import mysql.connector
-from forms import RegisterForm, LoginForm, RedigerForm, SlettForm
+from forms import RegisterForm, LoginForm, RedigerForm, RedigerForm2, SlettForm
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "superhemmelig123"
@@ -76,7 +76,7 @@ def welcome():
 def rediger():
     name = session.get('name')
     form = RedigerForm()
-    if form.submit.data and form.validate():
+    if form.usrsubmit.data and form.validate():
         username = form.username.data
 
         conn = get_conn()
@@ -92,11 +92,31 @@ def rediger():
             conn.commit()
             cur.close()
             conn.close()
+            session["name"] = username
             return redirect("/login")
-    form2 = SlettForm()
-    if form2.delsubmit.data and form2.validate():
-        username = form2.delusername.data
-        password = form2.delpassword.data
+
+    form2 = RedigerForm2()
+    if form2.passubmit.data and form2.validate():
+        newpassword = form2.password.data
+
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT passord FROM Users WHERE brukernavn = %s", (name,))
+        password = cur.fetchone()[0]
+
+        if newpassword == password:
+            form2.password.errors.append("Dette er allerede ditt passord")
+        else:
+            cur.execute("UPDATE Users SET passord = %s WHERE brukernavn = %s", (newpassword,name,))
+            conn.commit()
+            cur.close()
+            conn.close()
+            return redirect("/login")
+
+    form3 = SlettForm()
+    if form3.delsubmit.data and form3.validate():
+        username = form3.delusername.data
+        password = form3.delpassword.data
 
         conn = get_conn()
         cur = conn.cursor()
@@ -110,11 +130,11 @@ def rediger():
                 conn.close()
                 return redirect("/login")
             else:
-                form2.delusername.errors.append("Brukernavnet eller passordet er feil")
+                form3.delusername.errors.append("Brukernavnet eller passordet er feil")
         else:
-            form2.delusername.errors.append("Bruk ditt eget brukernavn")
+            form3.delusername.errors.append("Bruk ditt eget brukernavn")
 
-    return render_template("rediger.html", form=form,form2=form2,name=name)
+    return render_template("rediger.html", form=form,form2=form2,form3=form3,name=name)
 
 @app.route("/save_score", methods=["POST"])
 def save_score():

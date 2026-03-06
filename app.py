@@ -6,6 +6,12 @@ from forms import RegisterForm, LoginForm, RedigerForm, RedigerForm2, SlettForm
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "superhemmelig123"
 
+BANNED_WORDS = ["faen", "shit", "fuck", "helvete"]
+
+def contains_bad_word(username):
+    username_lower = username.lower()
+    return any(word in username_lower for word in BANNED_WORDS)
+
 def get_conn():
     return mysql.connector.connect(
         host="localhost",
@@ -27,7 +33,11 @@ def register():
         cur = conn.cursor()
         cur.execute("SELECT * FROM Users WHERE brukernavn = %s", (username,))
         user = cur.fetchone()
-        if age < 13:
+        
+        if contains_bad_word(username):
+            form.username.errors.append("Det brukernavnet tillater nettsiden ikke")
+
+        elif age < 13:
             form.age.errors.append("Du må være minst 13 år for å registrere deg")
 
         elif user:
@@ -57,7 +67,6 @@ def login():
         cur.close()
         conn.close()
         
-
         if user:
             password_db = user[1]
             if check_password_hash(password_db, password):
@@ -87,7 +96,10 @@ def rediger():
         cur.execute("SELECT * FROM Users WHERE brukernavn = %s", (username,))
         user = cur.fetchone()
 
-        if user:
+        if contains_bad_word(username):
+            form.username.errors.append("Det brukernavnet tillater nettsiden ikke")
+
+        elif user:
             form.username.errors.append("Brukernavnet er allerede tatt")
 
         else:

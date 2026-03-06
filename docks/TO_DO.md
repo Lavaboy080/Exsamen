@@ -51,3 +51,5 @@
   - [ ] Lage en side for feedback
   - [ ] Legge til kommentarer
   - [x] Skrive ting i docks ferdig
+  - [x] Legge til lisens
+  - [ ] Opgradere lisensen til noe jeg vil ha

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, session,request
-
+from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 from forms import RegisterForm, LoginForm, RedigerForm, RedigerForm2, SlettForm
 
@@ -21,6 +21,7 @@ def register():
         username = form.username.data
         password = form.password.data
         age = form.age.data
+        passord_hash = generate_password_hash(password)
 
         conn = get_conn()
         cur = conn.cursor()
@@ -34,7 +35,7 @@ def register():
 
         else:
             cur.execute(
-                "INSERT INTO Users (brukernavn, passord, alder, score, bestescore) VALUES (%s, %s,%s,0,0)",(username, password, age,))
+                "INSERT INTO Users (brukernavn, passord, alder, score, bestescore) VALUES (%s, %s,%s,0,0)",(username, passord_hash, age,))
             conn.commit()
             cur.close()
             conn.close()
@@ -51,15 +52,17 @@ def login():
 
         conn = get_conn()
         cur = conn.cursor()
-        cur.execute("SELECT brukernavn FROM Users WHERE brukernavn=%s AND passord=%s",(username, password,))
+        cur.execute("SELECT brukernavn, passord FROM Users WHERE brukernavn=%s",(username,))
         user = cur.fetchone()
         cur.close()
         conn.close()
         
 
         if user:
-            session['name'] = user[0]
-            return redirect("/welcome")
+            password_db = user[1]
+            if check_password_hash(password_db, password):
+                session['name'] = user[0]
+                return redirect("/welcome")
         else:
             form.username.errors.append("Feil brukernavn eller passord")
 
@@ -98,16 +101,19 @@ def rediger():
     form2 = RedigerForm2()
     if form2.passubmit.data and form2.validate():
         newpassword = form2.password.data
-
         conn = get_conn()
         cur = conn.cursor()
         cur.execute("SELECT passord FROM Users WHERE brukernavn = %s", (name,))
-        password = cur.fetchone()[0]
+        password_db = cur.fetchone()[0]
 
-        if newpassword == password:
+        if check_password_hash(password_db, newpassword):
             form2.password.errors.append("Dette er allerede ditt passord")
         else:
-            cur.execute("UPDATE Users SET passord = %s WHERE brukernavn = %s", (newpassword,name,))
+            newpassword_hash = generate_password_hash(newpassword)
+            cur.execute(
+                "UPDATE Users SET passord = %s WHERE brukernavn = %s",
+                (newpassword_hash, name)
+            )
             conn.commit()
             cur.close()
             conn.close()
@@ -117,18 +123,22 @@ def rediger():
     if form3.delsubmit.data and form3.validate():
         username = form3.delusername.data
         password = form3.delpassword.data
-
+        
         conn = get_conn()
         cur = conn.cursor()
-        cur.execute("SELECT brukernavn FROM Users WHERE brukernavn=%s AND passord=%s", (username, password,))
+        cur.execute("SELECT brukernavn, passord FROM Users WHERE brukernavn=%s", (username,))
         user = cur.fetchone()
         if username == name:
             if user:
-                cur.execute("DELETE FROM Users WHERE brukernavn=%s AND passord=%s", (username, password,))
-                conn.commit()
-                cur.close()
-                conn.close()
-                return redirect("/login")
+                password_db = user[1]
+                if check_password_hash(password_db, password):
+                    cur.execute("DELETE FROM Users WHERE brukernavn=%s AND passord=%s", (username, password_db,))
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                    return redirect("/login")
+                else:
+                    form3.delusername.errors.append("Brukernavnet eller passordet er feil")
             else:
                 form3.delusername.errors.append("Brukernavnet eller passordet er feil")
         else:

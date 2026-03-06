@@ -30,7 +30,7 @@
   - [x] Gjøre at brukerne kan endre brukernavn
   - [x] Gjøre at brukerne kan endre passordet sitt
   - [x] Gjøre at brukerne kan slette brukeren sin
-  - [ ] Passordhashing
+  - [x] Passordhashing
   
 
 - [ ] Lage spillet snake

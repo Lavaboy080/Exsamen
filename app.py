@@ -159,7 +159,17 @@ def index():
 @app.route('/mug')
 def mug():
     name = session.get('name')
-    return render_template("mug.html",name=name)
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT score FROM Users WHERE brukernavn = %s", (name,))
+    result = cur.fetchone()
+
+    cur.close()
+    conn.close()
+
+    score = result[0] if result and result[0] else 0
+
+    return render_template("mug.html",name=name,score=score)
 
 @app.route('/shop')
 def shop():

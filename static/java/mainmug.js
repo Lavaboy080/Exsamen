@@ -1,7 +1,7 @@
 const score = document.getElementById('score');
 const MUG = document.getElementById('MUG');
 let grandpaAmount = 0
-let count = 0
+let count = sqlscore || 0;
 
 
 function sendScore(score) {

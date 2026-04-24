@@ -41,7 +41,6 @@ Drt skal være et slags cookie cliker spill og et slags breakoutspill.
 ---
 
 ## Hvordan kjøre
-```bash
 python3 -m venv env
 source env/bin/activate
 pip install flask

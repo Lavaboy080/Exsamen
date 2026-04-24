@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "superhemmelig123"
 
 #lager en liste for dårlige ord fikk hjelp av chat
-BANNED_WORDS = ["faen", "shit", "fuck", "helvete"]
+BANNED_WORDS = ["faen", "shit", "fuck", "helvete","neger","niger","natzi"]
 
 #lager en funksjon som skjekker om username som er en variable sendt inn senere har de filteret ordene fikk hjelp av chat.
 def contains_bad_word(username):
@@ -115,6 +115,7 @@ def rediger():
             conn.close()
             session["name"] = username
             return redirect("/login")
+            
     #jeg måtte feilsøke med chat når jeg la inn form2
     #form 2 skal endre passordet fikk hjelp av hat når jeg måtte hashe de. fikk også hjelp av hannas tidliger læringstoffer
     form2 = RedigerForm2()
@@ -169,30 +170,18 @@ def rediger():
 def save_score():
     name = session.get('name')
     data = request.get_json()
-    score = data.get("score")
-
+    score = int(data.get("count"))
     conn = get_conn()
     cur = conn.cursor()
+
     cur.execute("UPDATE Users SET score = %s WHERE brukernavn = %s", (score, name,))
+    cur.execute("UPDATE Users SET bestescore = GREATEST(bestescore, %s) WHERE brukernavn = %s", (score, name,))
     conn.commit()
     cur.close()
     conn.close()
 
-    conn = get_conn()
-    cur = conn.cursor()
-    cur.execute("SELECT bestescore FROM Users WHERE brukernavn=%s", (name,))
-    highscore = cur.fetchone()[0]
-
-    if score > highscore:
-        conn = get_conn()
-        cur = conn.cursor()
-        cur.execute("UPDATE Users SET bestescore = %s WHERE brukernavn = %s", (score, name,))
-        conn.commit()
-        cur.close()
-        conn.close()
-
-    return {"status": "success"}
-
+    return 
+    
 @app.route('/scores')
 def scores():
     conn = get_conn()
@@ -214,14 +203,11 @@ def mug():
     conn = get_conn()
     cur = conn.cursor()
     cur.execute("SELECT score FROM Users WHERE brukernavn = %s", (name,))
-    result = cur.fetchone()
-
+    sqlscore = cur.fetchone()[0]
     cur.close()
     conn.close()
 
-    score = result[0] if result and result[0] else 0
-
-    return render_template("mug.html",name=name,score=score)
+    return render_template("mug.html",name=name,sqlscore=sqlscore)
 
 @app.route('/shop')
 def shop():

@@ -1,33 +1,31 @@
 const score = document.getElementById('score');
 const MUG = document.getElementById('MUG');
+const savebtn = document.getElementById('save');
 const reset = document.getElementById('reset');
-let grandpaAmount = 0
-let count = sqlscore || 0;
+let count = sqlscore 
+let hasUnsavedChanges = false;
 
+window.addEventListener("beforeunload", function (e) {
+    if (hasUnsavedChanges) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+});
 
-function sendScore(score) {
-    fetch("/save_score", {
+async function save() {
+    const response = await fetch("/save_score", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ score: score })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.status === "success"){
-            console.log("Score lagret!");
-        } else {
-            console.log("Feil ved lagring av score:", data);
-        }
-    })
-    .catch(error => console.error("Error:", error));
+        body: JSON.stringify({ count })
+    });
+
+    const data = await response.json().catch(() => ({}));
+    alert("Saved!");
+    hasUnsavedChanges = false;
 }
 
-function passiveIncome() {
-    count += grandpaAmount;
-    update();
-}
 
 function update() {
     if (score)
@@ -36,24 +34,23 @@ function update() {
 
 function incrise(){
     count ++ ;
+    hasUnsavedChanges = true;
     update();
     MUG.classList.toggle('up');
 }
 
 function startover(){
     count = 0
+    score.textContent = `Score: ${count}`;
+    update();
 } 
-
-MUG.addEventListener('click', () => {
-    incrise();
-    sendScore(count);
-});
 
 reset.addEventListener('click', () => {
     startover();
-    sendScore(count);
+    save();
 });
 
-
 update();
-setInterval(passiveIncome, 1000);
+MUG.addEventListener("click", incrise);
+savebtn.addEventListener("click", save);
+

@@ -1,26 +1,30 @@
 {% extends "base.html" %}
 
-{% block sheets%}
-<link rel="stylesheet" href = "../static/css/mug.css">
-<!--jeg måtte søke med chat for å finne ut hvordan man kommenterer med sql -->
-<!--jeg måtte også søke hvordan man lagrer score som kommer fra html inn i javascript-->
+{% block sheets %}
+<link rel="stylesheet" href="../static/css/mug.css">
+
 <script>
-    const sqlscore = {{ score }};
+    const sqlscore = {{ sqlscore | tojson }};
 </script>
 
-<script src="../static/java/mainmug.js" defer> </script>
-<script src="../static/java/mug.js" defer> </script>
-{% endblock%}
+<script src="../static/java/mainmug.js" defer></script>
+<script src="../static/java/mug.js" defer></script>
+{% endblock %}
 
 {% block content %}
-<!--jeg fant tabindex med chat det gjør at du kan tabbe deg gjennom siden-->
-<p id = reset tabindex="0">reset</p>
+
+<h1 tabindex="0">Mug clicker</h1>
+
+<p id="reset" tabindex="0">reset</p>
 <p tabindex="0">reset sets your score to 0. keeps your highest score on the leaderboard</p>
-<p id = nettshop tabindex="0">gå til butikken</p>
-<p id = nettmug tabindex="0">gå til mug</p>
+
+<p id="netshop" tabindex="0">gå til butikken</p>
+<p id="nettmug" tabindex="0">gå til mug</p>
+
 <h1 tabindex="0">MUG</h1>
-<img id = MUG src ="../static/img/mug.png" alt="mug" tabindex="0">
-<p id = score tabindex="0"></p>
 
+<img id="MUG" src="../static/img/mug.png" alt="mug" tabindex="0">
 
+<p id="score" tabindex="0"></p>
+<p id="save" tabindex="0">save</p>
 {% endblock %}

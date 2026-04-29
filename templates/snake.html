@@ -1,0 +1,12 @@
+{%extends "base.html"%}
+
+{% block sheets %}
+<link rel="stylesheet" href="../static/css/snake.css">
+<script src="../static/java/snake.js" defer></script>
+{% endblock %}
+
+{% block content %}
+<!--jeg fant tabindex med chat det gjør at du kan tabbe deg gjennom siden-->
+<button id="start">start/restart</button>
+<div class="grid"></div>
+{% endblock %}

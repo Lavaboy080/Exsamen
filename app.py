@@ -197,6 +197,10 @@ def scores():
 def index():
     return render_template("index.html")
 
+@app.route('/snake')
+def snake():
+    return render_template("snake.html")
+
 @app.route('/mug')
 def mug():
     name = session.get('name')

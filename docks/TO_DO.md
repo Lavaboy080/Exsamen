@@ -8,7 +8,7 @@
   - [ ] Legge til opgraderinger for mugcliker
   - [x] Bli ferdig med å bytte lagring av score og annet sånn at det lagres med sql
   - [x] Legge til en måte å starte spillet på nytt
-  - [ ]fikse bugs med scoren
+  - [x]fikse bugs med scoren
 
 - [x] Lage breakoutsppillet
   - [x] Lage an canvaslayer som ballen og blokker blir tegnet på
@@ -21,13 +21,13 @@
   - [x] Programere en vinnskjerm
   - [x] Programere score
 
-- [] Login
+- [x] Login
   - [x] Legge til registreringside
   - [x] Legge til innloging av brukere
   - [x] Legge til regestrering av brukere
   - [x] Sikre nettsiden for sql injeksions
   - [x] Lage aldersgrense for å bruke spillet
-  - [ ] Gjøre at noen bannerord ikke kan bli valgt som brukernavn.
+  - [x] Gjøre at noen bannerord ikke kan bli valgt som brukernavn.
   - [x] Gjøre at brukerne kan endre brukernavn
   - [x] Gjøre at brukerne kan endre passordet sitt
   - [x] Gjøre at brukerne kan slette brukeren sin
@@ -35,15 +35,15 @@
   
 
 - [ ] Lage spillet snake
-  - [ ] Lage en route som kjører htmlen
-  - [ ] Lage en canvas som lar ting blitt tegnet
-  - [ ] Lage en slange som er en liste med blokker
-  - [ ] Legge til bevegelse på slangen
-  - [ ] Legge til game over hvis den flytter seg forbi canvasen
+  - [x] Lage en route som kjører htmlen
+  - [x] Lage en canvas som lar ting blitt tegnet
+  - [x] Lage en slange som er en liste med blokker
+  - [x] Legge til bevegelse på slangen
+  - [x] Legge til game over hvis den flytter seg forbi canvasen
   - [ ] Legge til en funksjon som får epler til å generere på en ledig plass
   - [ ] Legge til en funksjon som får deg til å vokse når du spiser epler
-  - [ ] Legge til score som er på sql
-  - [ ] Legge til highscore som er på sql
+  - [x] Legge til score 
+  - [x] Legge til highscore 
 
 - [ ] Annet
   - [ ] Lage en personvernsærklæring
@@ -52,4 +52,3 @@
   - [ ] Legge til kommentarer
   - [x] Skrive ting i docks ferdig
   - [x] Legge til lisens
-  - [ ] Opgradere lisensen til noe jeg vil ha

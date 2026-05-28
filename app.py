@@ -222,6 +222,10 @@ def shop():
 def pong():
     return render_template("pong.html")
 
+@app.route('/plat')
+def plat():
+    return render_template("plat.html")
+
 if __name__ == "__main__":
     app.run()
 

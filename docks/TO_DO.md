@@ -44,6 +44,12 @@
   - [ ] Legge til en funksjon som får deg til å vokse når du spiser epler
   - [x] Legge til score 
   - [x] Legge til highscore 
+  - [ ] sette opp score til mysql
+
+- [ ] Lage spillet platformer
+  - [ ] Lage en karakter som kan flytte seg side til side og ikke gå utenfor viduet
+  - [ ] Lage til gravitasjon og gjøre at du an ollidere med bakken
+  - [ ] Lage en måte å lage blokker du kan stå på og hoppe fra
 
 - [ ] Annet
   - [ ] Lage en personvernsærklæring
@@ -52,3 +58,13 @@
   - [ ] Legge til kommentarer
   - [x] Skrive ting i docks ferdig
   - [x] Legge til lisens
+
+- [ ] Exsamenarbeid
+  - [ ] lage en todolist for eksamen
+  - [ ] endre readme til en guide
+  - [ ] bruke firefox sin exstension kalt wave for å finne feil og fikse dem sånn at nettsiden blir mer stabil
+  - [ ] Legge til en funksjon som får epler til å generere på en ledig plass
+  - [ ] Legge til en funksjon som får deg til å vokse når du spiser epler
+  - [ ] Sette opp snake score og highscore til mysql
+  - [ ] lage en platformer
+  

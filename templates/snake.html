@@ -2,6 +2,11 @@
 
 {% block sheets %}
 <link rel="stylesheet" href="../static/css/snake.css">
+
+<script>
+    const snakesqlscore = {{ snakesqlscore | tojson }};
+</script>
+
 <script src="../static/java/snake.js" defer></script>
 {% endblock %}
 
@@ -9,5 +14,7 @@
 <!--jeg fant tabindex med chat det gjør at du kan tabbe deg gjennom siden-->
 <h1>Snake spill</h1>
 <button id="start">start/restart</button>
+<p id="snakescore" tabindex="0"></p>
+<p>score blir lagret når du dør.</p>
 <div class="grid"></div>
 {% endblock %}

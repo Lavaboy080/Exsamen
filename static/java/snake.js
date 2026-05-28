@@ -1,13 +1,38 @@
 const grid = document.querySelector(".grid");
 const startBtn = document.getElementById("start");
-
-
+const snakescore = document.getElementById('snakescore');
 const width = 10;
+
+let snakecount = snakesqlscore 
 let squares = [];
 let currentSnake = [2, 1, 0];
 let direction = 1;
 let interval = null;
 let fruitIndex = 0;
+
+async function save() {
+    const response = await fetch("/save_snakescore", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ snakecount })
+    });
+
+    const data = await response.json().catch(() => ({}));
+    hasUnsavedChanges = false;
+}
+
+function update() {
+    if (snakescore)
+        snakescore.textContent = `Score: ${snakecount}`;
+}
+
+function incrise(){
+    snakecount ++ ;
+    hasUnsavedChanges = true;
+    update();
+}
 
 function createGrid() {
   grid.innerHTML = "";
@@ -39,7 +64,8 @@ function move() {
     squares[newHead].classList.contains("snake")
   ) {
     clearInterval(interval);
-    alert("Game Over");
+    save();
+    alert("Game Over! score saved!");
     return;
   }
 
@@ -52,6 +78,7 @@ function move() {
   else{
     squares.forEach(square => square.classList.remove("fruit"));
     addFruit();
+    incrise();
   }
   // Add new head
   currentSnake.unshift(newHead);
@@ -78,6 +105,8 @@ function control(e) {
 }
 
 function startGame() {
+  snakecount = 0
+  update();
   createGrid();
   addFruit();
 
@@ -95,7 +124,8 @@ function startGame() {
 function addFruit() {
   fruitIndex = Math.floor(Math.random() * squares.length);
   squares[fruitIndex].classList.add("fruit");
+    
 }
-
+update();
 document.addEventListener("keydown", control);
 startBtn.addEventListener("click", startGame);

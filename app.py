@@ -50,7 +50,7 @@ def register():
         #bruker det hashet passordet for å sende inn et mer forvirrende pasoord i databasen. brukte hannas tidligere læringstoff
         else:
             cur.execute(
-                "INSERT INTO Users (brukernavn, passord, alder, score, bestescore) VALUES (%s, %s,%s,0,0)",(username, passord_hash, age,))
+                "INSERT INTO Users (brukernavn, passord, alder, score, bestescore, snakescore, snakebestescore) VALUES (%s, %s,%s,0,0,0,0)",(username, passord_hash, age,))
             conn.commit()
             cur.close()
             conn.close()
@@ -180,6 +180,22 @@ def save_score():
     cur.close()
     conn.close()
 
+    return
+
+@app.route("/save_snakescore", methods=["POST"])
+def save_snakescore():
+    name = session.get('name')
+    data = request.get_json()
+    snakescore = int(data.get("snakecount"))
+    conn = get_conn()
+    cur = conn.cursor()
+
+    cur.execute("UPDATE Users SET snakescore = %s WHERE brukernavn = %s", (snakescore, name,))
+    cur.execute("UPDATE Users SET snakebestescore = GREATEST(bestescore, %s) WHERE brukernavn = %s", (snakescore, name,))
+    conn.commit()
+    cur.close()
+    conn.close()
+
     return 
     
 @app.route('/scores')
@@ -199,7 +215,14 @@ def index():
 
 @app.route('/snake')
 def snake():
-    return render_template("snake.html")
+    name = session.get('name')
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT snakescore FROM Users WHERE brukernavn = %s", (name,))
+    snakesqlscore = cur.fetchone()[0]
+    cur.close()
+    conn.close()
+    return render_template("snake.html", name=name,snakesqlscore=snakesqlscore)
 
 @app.route('/mug')
 def mug():

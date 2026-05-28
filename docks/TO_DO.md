@@ -62,9 +62,9 @@
 - [ ] Exsamenarbeid
   - [x] lage en todolist for eksamen
   - [x] endre readme til en guide
-  - [ ] bruke firefox sin exstension kalt wave for å finne feil og fikse dem sånn at nettsiden blir mer stabil
-  - [ ] Legge til en funksjon som får epler til å generere på en ledig plass
-  - [ ] Legge til en funksjon som får deg til å vokse når du spiser epler
-  - [ ] Sette opp snake score og highscore til mysql
+  - [x] bruke firefox sin exstension kalt wave for å finne feil og fikse dem sånn at nettsiden blir mer stabil
+  - [x] Legge til en funksjon som får epler til å generere
+  - [x] Legge til en funksjon som får deg til å vokse når du spiser epler
+  - [x] Sette opp snake score til mysql
   - [ ] lage en platformer
   

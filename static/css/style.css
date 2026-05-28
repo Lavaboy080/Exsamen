@@ -3,7 +3,9 @@
   color: #ffffff;
 }
 
-
+a {
+    color: #ffffff;
+}
 /* Body background */
 body {
     background-color: #0a0a0a; /* Dark background */

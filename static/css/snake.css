@@ -17,3 +17,10 @@
     background-position: center; /* Centers the image */
     background-size: cover; /* Resizes the image to cover the entire container */
 }
+
+.fruit {
+    background-image: url("../img/fruit.png");
+    background-repeat: no-repeat; /* Prevents the image from tiling */
+    background-position: center; /* Centers the image */
+    background-size: cover; /* Resizes the image to cover the entire container */
+}

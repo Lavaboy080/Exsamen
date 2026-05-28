@@ -1,13 +1,14 @@
 const grid = document.querySelector(".grid");
 const startBtn = document.getElementById("start");
 
+
 const width = 10;
 let squares = [];
 let currentSnake = [2, 1, 0];
 let direction = 1;
 let interval = null;
+let fruitIndex = 0;
 
-// Create grid
 function createGrid() {
   grid.innerHTML = "";
   squares = [];
@@ -20,19 +21,16 @@ function createGrid() {
   }
 }
 
-// Draw snake
 function drawSnake() {
   currentSnake.forEach(index => {
     squares[index].classList.add("snake");
   });
 }
 
-// Move snake
 function move() {
   const head = currentSnake[0];
   const newHead = head + direction;
 
-  // Collision detection
   if (
     newHead < 0 ||
     newHead >= squares.length ||
@@ -54,7 +52,8 @@ function move() {
   squares[newHead].classList.add("snake");
 }
 
-// Controls (clean version)
+
+
 function control(e) {
   const key = e.key.toLowerCase();
 
@@ -71,9 +70,10 @@ function control(e) {
     direction = width;
   }
 }
-// Start game
+
 function startGame() {
   createGrid();
+  addFruit();
 
   currentSnake = [2, 1, 0];
   direction = 1;
@@ -84,6 +84,12 @@ function startGame() {
   interval = setInterval(move, 200);
 }
 
-// Event listeners
+
+
+function addFruit() {
+  fruitIndex = Math.floor(Math.random() * squares.length);
+  squares[fruitIndex].classList.add("fruit");
+}
+
 document.addEventListener("keydown", control);
 startBtn.addEventListener("click", startGame);

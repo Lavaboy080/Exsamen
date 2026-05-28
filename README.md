@@ -53,13 +53,45 @@ Denne nettsiden inneholder variasjoner av cookie cliker, breakout og snake. Nett
 
 
 ---
+## Krav
+En ferdig opsettet virtual konteiner med proxmox
+Ferdig lastet ned mysql på serveren
+Ferdig inatlert git
+Ferdig instalert pip
+Ferdig instalert python3
+
 
 ## Hvordan kjøre
-laste ned og åpne vscode
-oprett en server 
-laste ned eller kopiere alle filer inn i vs code
-python3 -m venv env
-source env/bin/activate
-pip install flask
-python3 app.py
-gå til 172.20.128.28
+Guide
+åpne terminalen og logg in på din virtual container
+
+logg inn på mysql med sudobrukeren
+
+kjør: create database Users;
+
+
+kjør: create table Users ( id int autoincrement primary key, brukenavn text, passord text, alder int, score int, bestescore int );
+
+
+kjør: git clone https://github.com/Lavaboy080/Exsamen.git
+kloner alee filene til prosjektet inn på maskinen din
+
+kjør: cd Exsamen
+flytter deg inn i mappen
+
+kjør: pip install -r requirements.txt
+instalerer ting fra pakker som jobber med python (du trenger det for at koden skal kjøre)
+
+kjør: ip a 
+dette gir deg info om ip adressen om srveren din som lar deg kjøre nettsiden
+
+kopier hele greie og spør google rund om hav som er ip adressen 
+
+
+kjør: sudo touch app.wsgi 
+
+sett in ip adressen i browserennog og søk 
+ferdig
+
+
+

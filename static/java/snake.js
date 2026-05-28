@@ -51,6 +51,7 @@ function move() {
 
   else{
     squares.forEach(square => square.classList.remove("fruit"));
+    addFruit();
   }
   // Add new head
   currentSnake.unshift(newHead);

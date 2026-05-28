@@ -61,7 +61,7 @@
 
 - [ ] Exsamenarbeid
   - [x] lage en todolist for eksamen
-  - [ ] endre readme til en guide
+  - [x] endre readme til en guide
   - [ ] bruke firefox sin exstension kalt wave for å finne feil og fikse dem sånn at nettsiden blir mer stabil
   - [ ] Legge til en funksjon som får epler til å generere på en ledig plass
   - [ ] Legge til en funksjon som får deg til å vokse når du spiser epler

@@ -44,9 +44,14 @@ function move() {
   }
 
   // Remove tail
-  const tail = currentSnake.pop();
-  squares[tail].classList.remove("snake");
+  if (!squares[newHead].classList.contains("fruit")){
+    const tail = currentSnake.pop();
+    squares[tail].classList.remove("snake");
+  }
 
+  else{
+    squares.forEach(square => square.classList.remove("fruit"));
+  }
   // Add new head
   currentSnake.unshift(newHead);
   squares[newHead].classList.add("snake");
